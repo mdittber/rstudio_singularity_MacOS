@@ -1,0 +1,18 @@
+Bootstrap: docker
+From: rocker/tidyverse:4.0.2
+# From: rocker/tidyverse:3.6.3
+# From: rocker/tidyverse:3.6.1
+# From: rocker/rstudio:4.0.3
+
+%labels
+  Author Pawsey Supercomputing Centre
+  Version 0.0.1
+
+%environment
+	RENV_VERSION=0.12.2
+
+%startscript
+  export R_PORT=${R_PORT:-"8787"}
+  export R_ADDRESS=${R_ADDRESS:-"0.0.0.0"}
+
+  rserver --www-port $R_PORT --www-address $R_ADDRESS --auth-none=0 --auth-pam-helper-path=pam-helper

@@ -1,0 +1,8 @@
+Bootstrap: localimage
+From: custom_rstudio.simg
+
+%post
+	apt-get install -y libpam-modules-bin 
+	cp /R-4.0.2/src/main/libR.a /usr/local/lib/R/lib/
+	cd /usr/local/lib/R/lib
+	ar -rcs libR.so libR.a
