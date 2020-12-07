@@ -34,4 +34,6 @@ Vagrant allows to run virtual machines easily preconfigured with Singularity.
 
 ## Build a Singularity Images
 
-Follow the steps above. When connected to the VM
+1. Follow the steps above. When connected to the VM change to the following directory:
+   `mv /host/var/vagrant/`
+2. Build the image: `(sudo) singularity build 2020-12-07_rstudio-server.simg singularity/2020-12-07_rstudio-server.def`
