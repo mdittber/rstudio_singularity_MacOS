@@ -58,18 +58,17 @@ Vagrant allows to run virtual machines easily preconfigured with Singularity.
    ```
 2. Build the image
    ```bash
-   $ sudo singularity build 2020-12-07_rstudio-server.simg singularity/2020-12-07_rstudio-server.def
+   $ sudo singularity build rstudio-server.simg rstudio-server.def
    ```
 
 
 ## Run the created image
 
-1. 
-2. Start RStudio Server
+1. Start RStudio Server
    * Change the port if needed (e.g. when deploying on LeoMed)
    ```bash
-   $ singularity shell -B ~:/opt 2020-12-07_rstudio-server_stage-2.simg 
+   $ singularity shell -B ~:/opt rstudio-server.simg
    $ rserver --www-port 8787 --www-address 0.0.0.0 --auth-none=1 --auth-validate-users=0 --auth-minimum-user-id=0 --server-daemonize 0 --server-data-dir /opt
    ```
-3. Open a browser and type:
+2. Open a browser and type:
    `localhost:8787`
