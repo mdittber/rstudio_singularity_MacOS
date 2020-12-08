@@ -46,7 +46,7 @@ Vagrant allows to run virtual machines easily preconfigured with Singularity.
    ```
 6. To stop the VM type
    ```bash
-   vagrant down
+   vagrant halt
    ```
 
 
