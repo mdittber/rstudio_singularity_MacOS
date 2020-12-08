@@ -1,0 +1,82 @@
+Bootstrap: localimage
+From: ../images/2020-12-07_rstudio-server_stage-1.simg
+
+
+%labels
+  Maintainer Matthisa Dittberner
+  R_Version 4.0.2
+
+
+%environment
+  export RSTUDIO_VERSION=${RSTUDIO_VERSION:-1.2.5042}
+	export S6_VERSION=${S6_VERSION:-v1.21.7.0}
+	export S6_BEHAVIOUR_IF_STAGE2_FAILS=2
+	export PATH=/usr/lib/rstudio-server/bin:$PATH
+	export PANDOC_TEMPLATES_VERSION=${PANDOC_TEMPLATES_VERSION:-2.9}
+  # Software versions
+  export R_VERSION=4.0.2
+  export TZ=Europe/Zurich
+
+  RSTUDIO_VERSION=${RSTUDIO_VERSION:-1.2.5042}
+	S6_VERSION=${S6_VERSION:-v1.21.7.0}
+	S6_BEHAVIOUR_IF_STAGE2_FAILS=2
+	PATH=/usr/lib/rstudio-server/bin:$PATH
+	PANDOC_TEMPLATES_VERSION=${PANDOC_TEMPLATES_VERSION:-2.9}
+  # Software versions
+  R_VERSION=4.0.2
+  TZ=Europe/Zurich
+
+  export RSTUDIO_VERSION S6_VERSION S6_BEHAVIOUR_IF_STAGE2_FAILS PATH PANDOC_TEMPLATES_VERSION R_VERSION TZ
+
+
+%files
+	userconf.sh /etc/cont-init.d/userconf
+  renv.lock
+
+
+%post
+
+  export RSTUDIO_VERSION=${RSTUDIO_VERSION:-1.2.5042}
+	export S6_VERSION=${S6_VERSION:-v1.21.7.0}
+	export S6_BEHAVIOUR_IF_STAGE2_FAILS=2
+	export PATH=/usr/lib/rstudio-server/bin:$PATH
+	export PANDOC_TEMPLATES_VERSION=${PANDOC_TEMPLATES_VERSION:-2.9}
+  # Software versions
+  export R_VERSION=4.0.2
+  export TZ=Europe/Zurich
+
+
+
+  ########################################
+  ##  Install Project related packages  ##
+  ########################################
+
+  ##  Add a default CRAN mirror
+  ## mkdir -p /usr/lib/R/etc
+  ## echo "options(repos = c(CRAN = 'https://cran.rstudio.com/'), download.file.method = 'libcurl')" >> /usr/lib/R/etc/Rprofile.site
+
+  ##  Add a directory for host R libraries
+  ## mkdir -p /library
+  ## echo "R_LIBS_SITE=/library:\${R_LIBS_SITE}" >> /usr/lib/R/etc/Renviron.site
+	R -e "install.packages('remotes', repos = c(CRAN = 'https://cloud.r-project.org'))"
+	## R -e "remotes::install_github('rstudio/renv@${RENV_VERSION}')"
+	R -e "remotes::install_github('rstudio/renv@0.12.2')"
+	R --vanilla -e "library(renv);renv::consent(provided = TRUE);renv::restore(prompt=FALSE)"
+  R --vanilla -e "tinytex::install_tinytex()"
+
+
+################
+##  Clean up  ##
+################
+
+  apt-get clean && \
+  rm -rf /var/lib/apt/lists/* && \
+  rm -rf rstudio-server-1.3.1093-amd64.deb
+
+
+##################
+##  On Startup  ##
+##################
+
+%runscript
+  rserver --www-port 8787 --www-address 0.0.0.0 --auth-none=1 --auth-validate-users=0 --auth-minimum-user-id=0 --server-daemonize 0 --server-data-dir /opt
