@@ -30,8 +30,8 @@ From: ubuntu:20.04
 
 
 %files
-	userconf.sh /etc/cont-init.d/userconf
-  renv.lock
+	singularity/userconf.sh /etc/cont-init.d/userconf
+  singularity/renv.lock
 
 
 %post
