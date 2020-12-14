@@ -1,0 +1,5 @@
+Bootstrap: localimage
+From: ../images/2020-12-07_rstudio-server_stage-1.simg
+
+%post
+  apt-get install -y libsnappy-dev texlive
