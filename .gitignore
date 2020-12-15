@@ -1,2 +1,4 @@
 *.simg
 images/
+rootfs-*
+.ipynb_checkpoints
