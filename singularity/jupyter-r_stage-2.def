@@ -1,5 +1,5 @@
 Bootstrap: localimage
-From: ../images/jupyter-r.simg
+From: jupyter-r_stage-1.simg
 
 
 %environment
@@ -25,8 +25,8 @@ From: ../images/jupyter-r.simg
 
 
 %files
-	userconf.sh /etc/cont-init.d/userconf
-  renv.lock
+	# userconf.sh /etc/cont-init.d/userconf
+  	renv.lock
 
 
 %post
@@ -74,5 +74,5 @@ From: ../images/jupyter-r.simg
 ##  On Startup  ##
 ##################
 
-%runscript
-  rserver --www-port 8787 --www-address 0.0.0.0 --auth-none=1 --auth-validate-users=0 --auth-minimum-user-id=0 --server-daemonize 0 --server-data-dir /opt
+# %runscript
+  # rserver --www-port 8787 --www-address 0.0.0.0 --auth-none=1 --auth-validate-users=0 --auth-minimum-user-id=0 --server-daemonize 0 --server-data-dir /opt
